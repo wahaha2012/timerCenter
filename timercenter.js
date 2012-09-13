@@ -25,7 +25,7 @@
 		}
 	};
 	
-	var timerCenter=function(interval,runAlways){
+	var timerCenter=function(interval,autoStart){
 		var _timer,
 			//default time interval is 1000ms
 			_interval=1000,
@@ -34,7 +34,7 @@
 			
 		if(typeof interval!=='undefined'){
 			if(!util.type(interval,'number')&&!util.type(interval,'string')){
-				runAlways=interval;
+				autoStart=interval;
 			}else{
 				var _intervalINT=parseInt(interval,10);
 				if(_intervalINT>9){
@@ -45,7 +45,7 @@
 			}
 		}
 		
-		//resume
+		//resume or start
 		this.resume=this.start=function(){
 			_timer=setInterval(function(){util.notify(_listeners)}, _interval);
 			
@@ -159,7 +159,7 @@
 			return this;
 		};
 		
-		runAlways&&this.resume();
+		autoStart&&this.start();
 	};
 	
 	//constructor
