@@ -1,3 +1,9 @@
+/**
+*timercenter
+*Author: wxwdesign@gmail.com
+*Copyright (c) 2012 wxwdesign. All rights reserved. Released under MIT License
+*/
+
 ;(function(global){
 	var util={
 		notify:function(listeners){
@@ -22,12 +28,21 @@
 	var timerCenter=function(interval,runAlways){
 		var _timer,
 			//default time interval is 1000ms
-			_interval=interval||1000,
-			
+			_interval=1000,
+			//timer listeners
 			_listeners={};
 			
-		if(typeof interval!=='undefined'&&!util.type(interval,'number')&&!util.type(interval,'string')){
-			runAlways=interval;
+		if(typeof interval!=='undefined'){
+			if(!util.type(interval,'number')&&!util.type(interval,'string')){
+				runAlways=interval;
+			}else{
+				var _intervalINT=parseInt(interval,10);
+				if(_intervalINT>9){
+					_interval=_intervalINT;
+				}else{
+					// console.log("interval is too small");
+				}
+			}
 		}
 		
 		//resume
