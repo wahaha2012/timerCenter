@@ -27,12 +27,14 @@
 	
 	var timerCenter=function(interval,autoStart){
 		var _timer,
+			//timer status
+			_timerStarted=false,
 			//default time interval is 1000ms
 			_interval=1000,
 			//timer listeners
 			_listeners={};
 			
-		if(typeof interval!=='undefined'){
+		if(interval!==undefined){
 			if(!util.type(interval,'number')&&!util.type(interval,'string')){
 				autoStart=interval;
 			}else{
@@ -47,7 +49,13 @@
 		
 		//resume or start
 		this.resume=this.start=function(){
+			if(_timerStarted){
+				// console.log('timer started already');
+				return this;
+			}
+			
 			_timer=setInterval(function(){util.notify(_listeners)}, _interval);
+			_timerStarted=true;
 			
 			return this;
 		};
@@ -55,24 +63,24 @@
 		//stop
 		this.stop=function(){
 			clearInterval(_timer);
-			
+			_timerStarted=false;
 			return this;
 		};
 		
 		//add listeners
 		this.addListener=function(key,value){
-			if(typeof key==='undefined'){return this;}
+			if(key===undefined){return this;}
 			
 			if(util.type(key)==='object'){
 				for(var k in key){
-					if(typeof _listeners[k]==='undefined'){
+					if(_listeners[k]===undefined){
 						_listeners[k]={'func':[key[k]]};
 					}else{
 						_listeners[k].func.push(key[k]);
 					}
 				}
-			}else if(typeof value!=='undefined'){
-				if(typeof _listeners[key]==='undefined'){
+			}else if(value!==undefined){
+				if(_listeners[key]===undefined){
 					_listeners[key]={'func':[value]};
 				}else{
 					_listeners[key].func.push(value);
@@ -84,16 +92,16 @@
 			
 		//update listeners
 		this.updateListener=function(key,value){
-			if(typeof key==='undefined'){return this;}
+			if(key===undefined){return this;}
 			
 			if(util.type(key)==='object'){
 				for(var k in key){
-					if(typeof _listeners[k]!=='undefined'){
+					if(_listeners[k]!==undefined){
 						_listeners[k].func=[key[k]];
 					}
 				}
-			}else if(typeof value!=='undefined'){
-				if(typeof _listeners[key]!=='undefined'){
+			}else if(value!==undefined){
+				if(_listeners[key]!==undefined){
 					_listeners[key].func=[value];
 				}
 			}
@@ -103,16 +111,16 @@
 	
 		//remove listeners
 		this.removeListener=function(key){
-			if(typeof key==='undefined'){return this;}
+			if(key===undefined){return this;}
 			
 			if(util.type(key)==='object'){
 				for(var k in key){
-					if(typeof _listeners[k]!=='undefined'){
+					if(_listeners[k]!==undefined){
 						delete _listeners[k];
 					}
 				}
 			}else{
-				if(typeof _listeners[key]!=='undefined'){
+				if(_listeners[key]!==undefined){
 					delete _listeners[key];
 				}
 			}
@@ -123,16 +131,16 @@
 		
 		//stop some listeners
 		this.stopListeners=function(key){
-			if(typeof key==='undefined'){return this;}
+			if(key===undefined){return this;}
 			
 			if(util.type(key)==='object'){
 				for(var k in key){
-					if(typeof _listeners[k]!=='undefined'){
+					if(_listeners[k]!==undefined){
 						_listeners[k].disabled=true;
 					}
 				}
 			}else{
-				if(typeof _listeners[key]!=='undefined'){
+				if(_listeners[key]!==undefined){
 					_listeners[key].disabled=true;
 				}
 			}
@@ -142,16 +150,16 @@
 		
 		//resume some listeners
 		this.resumeListeners=function(key){
-			if(typeof key==='undefined'){return this;}
+			if(key===undefined){return this;}
 			
 			if(util.type(key)==='object'){
 				for(var k in key){
-					if(typeof _listeners[k]!=='undefined'){
+					if(_listeners[k]!==undefined){
 						delete _listeners[k].disabled;
 					}
 				}
 			}else{
-				if(typeof _listeners[key]!=='undefined'){
+				if(_listeners[key]!==undefined){
 					delete _listeners[key].disabled;
 				}
 			}
@@ -164,6 +172,9 @@
 	
 	//constructor
 	timerCenter.prototype.constructor=timerCenter;
+	
+	//version
+	timerCenter.prototype.version="0.1";
 	
 	// if(!global.TimerCenter||!util.type(global.TimerCenter,'function')){
 	if(global.TimerCenter!==timerCenter){

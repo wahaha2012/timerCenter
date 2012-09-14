@@ -18,7 +18,7 @@ var dd=document.getElementsByTagName('dd');
 	})(i+1);
 } */
 
-var timer=new TimerCenter().start();
+var timer=new TimerCenter().start().start().start();
 for(var i=0,L=dd.length;i<L;i++){
 	(function(c){
 		var t=1,
