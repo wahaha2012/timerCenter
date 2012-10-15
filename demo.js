@@ -10,8 +10,10 @@ for(var i=0,L=dd1.length;i<L;i++){
 		
 		//add timer listeners
 		timer.addListener('dd1',function(){
-			t+=c;
-			dd1[c-1].innerHTML=t;
+			// for(var ss=0;ss<10000;ss++){
+				t+=c;
+				dd1[c-1].innerHTML=t;
+			// }
 		});
 		
 		//click event stop or resume
@@ -23,7 +25,7 @@ for(var i=0,L=dd1.length;i<L;i++){
 	})(i+1);
 }
 
-for(var i=0,L=dd2.length;i<L;i++){
+/* for(var i=0,L=dd2.length;i<L;i++){
 	(function(c){
 		var t=1,
 			timer=new TimerCenter(c*1000).start(),
@@ -39,4 +41,4 @@ for(var i=0,L=dd2.length;i<L;i++){
 			s=!s;
 		}
 	})(i+1);
-}
+} */
